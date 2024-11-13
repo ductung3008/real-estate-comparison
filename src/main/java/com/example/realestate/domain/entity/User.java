@@ -39,6 +39,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     String fullName;
 
+    @Column(nullable = false)
+    String email;
+
     @OneToMany(mappedBy = "createdBy")
     List<Project> projects;
 
