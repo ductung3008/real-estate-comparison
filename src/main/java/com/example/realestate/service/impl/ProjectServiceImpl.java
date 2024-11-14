@@ -143,8 +143,6 @@ public class ProjectServiceImpl implements ProjectService {
     public GlobalResponse<Meta, List<ProjectResponse>> getProjects(int page, int size) {
         int limit = size;
         int offset = page * size;
-        log.error(limit);
-        log.error(offset);
         List<Project> projects = projectRepository.findProjectsWithPagination(limit, offset);
 
         List<ProjectResponse> responses = projects.stream()
