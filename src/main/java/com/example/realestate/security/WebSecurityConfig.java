@@ -32,6 +32,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -69,12 +70,13 @@ public class WebSecurityConfig {
             })
             .authorizeHttpRequests(auth -> auth
 //                    .anyRequest().permitAll()
+                    .requestMatchers(Endpoint.V1.Auth.PREFIX + CATCH_ALL_WILDCARD).permitAll()
                     .requestMatchers(HttpMethod.GET, CATCH_ALL_WILDCARD).permitAll()
                     .requestMatchers(HttpMethod.POST, Endpoint.V1.User.PREFIX).permitAll()
-                    .requestMatchers(Endpoint.V1.Auth.PREFIX + CATCH_ALL_WILDCARD).permitAll()
                             .anyRequest().authenticated()
             )
-            .authenticationProvider(authenticationProvider);
+            .authenticationProvider(authenticationProvider)
+        .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
 
         http.exceptionHandling().authenticationEntryPoint(authEntryPoint);
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);

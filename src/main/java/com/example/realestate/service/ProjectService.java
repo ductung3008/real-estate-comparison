@@ -22,7 +22,7 @@ public interface ProjectService {
 
     GlobalResponse<Meta, List<ProjectResponse>> importProject() throws JsonProcessingException, IOException;
 
-    GlobalResponse<Meta, List<ProjectResponse>> getProjects();
+    GlobalResponse<Meta, List<ProjectResponse>> getProjects(int page, int size);
 
     GlobalResponse<Meta, ProjectResponse> getProject(UUID id);
 

@@ -82,10 +82,10 @@ public class ProjectServiceImpl implements ProjectService {
         objectMapper.registerModule(new JavaTimeModule());
 
         // Đọc dữ liệu từ file JSON
-        File file = new File("E:\\real-estate\\realestate-db.json");
+        File file = new File("D:\\workspace\\Java\\real-estate-comparison\\data\\realestate-db.json");
 //        File file = new File("E:\\real-estate\\realestate-example.json");
 //        List<LinkedHashMap<String, Object>> objects = objectMapper.readValue(file, List.class);
-        List<ProjectRequest> requests = getProjectRequests();
+        List<ProjectRequest> requests = getProjectRequests(file);
 
 //        for (LinkedHashMap<String, Object> obj : objects) {
 //            // Chuyển đổi thủ công vào ProjectRequest nếu cần
@@ -140,8 +140,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public GlobalResponse<Meta, List<ProjectResponse>> getProjects() {
-        List<Project> projects = projectRepository.findAll();
+    public GlobalResponse<Meta, List<ProjectResponse>> getProjects(int page, int size) {
+        int limit = size;
+        int offset = page * size;
+        log.error(limit);
+        log.error(offset);
+        List<Project> projects = projectRepository.findProjectsWithPagination(limit, offset);
 
         List<ProjectResponse> responses = projects.stream()
                                                   .map(project -> {
@@ -228,7 +232,7 @@ public class ProjectServiceImpl implements ProjectService {
                              .build();
     }
 
-    private List<ProjectRequest> getProjectRequests() {
+    private List<ProjectRequest> getProjectRequests(File file) {
         JsonFactory jsonFactory = JsonFactory.builder()
                                              .enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION)
                                              .build();
@@ -240,7 +244,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectRequest> projects = new ArrayList<>();
 
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("E:\\real-estate\\realestate-db.json"));
+            JsonNode rootNode = objectMapper.readTree(file);
             JsonNode dataNode = rootNode.path("data");
 
             for (JsonNode projectNode : dataNode) {

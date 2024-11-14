@@ -44,11 +44,9 @@ public class Project {
     @Column(nullable = false, columnDefinition = "TEXT")
     String address;
 
-//    @Column(nullable = false)
     @Column
     String developerName;
 
-//    @Column(nullable = false, columnDefinition = "TEXT")
     @Column(columnDefinition = "TEXT")
     String masterPlanUrl;
 
@@ -66,7 +64,6 @@ public class Project {
     @Column(precision = 5, scale = 2)
     BigDecimal ctsnDens;
 
-//    @Column(nullable = false)
     @Column
     Integer totalProperty;
 
@@ -92,10 +89,10 @@ public class Project {
     Integer bikeParkingMonthly;
     Integer carParkingMonthly;
 
-    @Column(precision = 15, scale = 10)  // Thay đổi precision và scale
+    @Column(precision = 15, scale = 10)
     BigDecimal latitude;
 
-    @Column(precision = 15, scale = 10)  // Thay đổi precision và scale
+    @Column(precision = 15, scale = 10)
     BigDecimal longitude;
 
     @ManyToOne

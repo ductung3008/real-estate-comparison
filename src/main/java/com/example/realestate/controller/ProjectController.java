@@ -105,10 +105,11 @@ public class ProjectController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = GlobalResponse.class))
     )
     @GetMapping(Endpoint.V1.Project.GET_PROJECT)
-    public ResponseEntity<GlobalResponse<Meta, List<ProjectResponse>>> getProjects() {
+    public ResponseEntity<GlobalResponse<Meta, List<ProjectResponse>>> getProjects(@RequestParam(defaultValue = "0") int page,
+                                                                                   @RequestParam(defaultValue = "1000") int size) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(projectService.getProjects());
+                .body(projectService.getProjects(page, size));
     }
 
     @Operation(
