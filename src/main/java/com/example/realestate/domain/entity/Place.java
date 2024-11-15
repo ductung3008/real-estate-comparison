@@ -33,8 +33,12 @@ public class Place {
     @Column(nullable = false)
     String name;
 
+    @Column(precision = 15, scale = 10)
     BigDecimal latitude;
+
+    @Column(precision = 15, scale = 10)
     BigDecimal longitude;
+
     BigDecimal distance;
     BigDecimal rating;
 

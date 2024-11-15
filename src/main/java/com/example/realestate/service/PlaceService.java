@@ -18,13 +18,13 @@ import java.util.UUID;
 public interface PlaceService {
     GlobalResponse<Meta, PlaceResponse> createPlace(UUID id, PlaceRequest request);
 
-    GlobalResponse<Meta, List<PlaceResponse>> importPlace();
+//    GlobalResponse<Meta, List<PlaceResponse>> importPlace();
 
     GlobalResponse<Meta, List<PlaceResponse>> getPlaces(UUID id, int page, int size);
 
     GlobalResponse<Meta, PlaceResponse> getPlace(UUID projectId, UUID placeId);
 
-    GlobalResponse<Meta, String> deletePlace(UUID projectId, UUID placeId);
+    GlobalResponse<Meta, String> deletePlace(UUID placeId);
 
-    GlobalResponse<Meta, PlaceResponse> updatePlace(UUID projectId, UUID placeId, PlaceRequest request);
+    GlobalResponse<Meta, PlaceResponse> updatePlace(UUID placeId, PlaceRequest request);
 }

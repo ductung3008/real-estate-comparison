@@ -47,12 +47,13 @@ public interface Endpoint {
 
         public interface Place {
             String PREFIX       = V1.PREFIX + "/projects/{projectId}/places";
+            String PLACE_PREFIX = V1.PREFIX + "/places";
             String CREATE_PLACE = PREFIX;
-            String IMPORT_PLACE = V1.PREFIX + "/places/import";
+            String IMPORT_PLACE = PLACE_PREFIX + "/import";
             String GET_PLACES   = PREFIX;
             String GET_PLACE    = PREFIX + "/{placeId}";
-            String DELETE_PLACE = PREFIX + "/{placeId}";
-            String UPDATE_PLACE = PREFIX + "/{placeId}";
+            String DELETE_PLACE = PLACE_PREFIX + "/{placeId}";
+            String UPDATE_PLACE = PLACE_PREFIX + "/{placeId}";
         }
 
         public interface Price {

@@ -68,30 +68,30 @@ public class PlaceController {
                 .body(placeService.createPlace(id, request));
     }
 
-    @Operation(
-            summary = "Import places",
-            description = "Import places for a specific project.",
-            tags = {"Place"}
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Places imported successfully",
-                    content = @Content(mediaType = "application/json",
-                                       schema = @Schema(implementation = GlobalResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Project not found",
-                    content = @Content(mediaType = "application/json")
-            )
-    })
-    @PostMapping(Endpoint.V1.Place.IMPORT_PLACE)
-    public ResponseEntity<GlobalResponse<Meta, List<PlaceResponse>>> importPlace() {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(placeService.importPlace());
-    }
+//    @Operation(
+//            summary = "Import places",
+//            description = "Import places for a specific project.",
+//            tags = {"Place"}
+//    )
+//    @ApiResponses(value = {
+//            @ApiResponse(
+//                    responseCode = "201",
+//                    description = "Places imported successfully",
+//                    content = @Content(mediaType = "application/json",
+//                                       schema = @Schema(implementation = GlobalResponse.class))
+//            ),
+//            @ApiResponse(
+//                    responseCode = "404",
+//                    description = "Project not found",
+//                    content = @Content(mediaType = "application/json")
+//            )
+//    })
+//    @PostMapping(Endpoint.V1.Place.IMPORT_PLACE)
+//    public ResponseEntity<GlobalResponse<Meta, List<PlaceResponse>>> importPlace() {
+//        return ResponseEntity
+//                .status(HttpStatus.CREATED)
+//                .body(placeService.importPlace());
+//    }
 
     @Operation(
             summary = "Get all places",
@@ -165,11 +165,10 @@ public class PlaceController {
             )
     })
     @DeleteMapping(Endpoint.V1.Place.DELETE_PLACE)
-    public ResponseEntity<GlobalResponse<Meta, String>> deletePlace(@PathVariable(name = "projectId") UUID projectId,
-                                                                    @PathVariable(name = "placeId") UUID placeId) {
+    public ResponseEntity<GlobalResponse<Meta, String>> deletePlace(@PathVariable(name = "placeId") UUID placeId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(placeService.deletePlace(projectId, placeId));
+                .body(placeService.deletePlace(placeId));
     }
 
     @Operation(
@@ -191,11 +190,10 @@ public class PlaceController {
             )
     })
     @PutMapping(Endpoint.V1.Place.UPDATE_PLACE)
-    public ResponseEntity<GlobalResponse<Meta, PlaceResponse>> updatePlace(@PathVariable(name = "projectId") UUID projectId,
-                                                                           @PathVariable(name = "placeId") UUID placeId,
+    public ResponseEntity<GlobalResponse<Meta, PlaceResponse>> updatePlace(@PathVariable(name = "placeId") UUID placeId,
                                                                            @RequestBody PlaceRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(placeService.updatePlace(projectId, placeId, request));
+                .body(placeService.updatePlace(placeId, request));
     }
 }
