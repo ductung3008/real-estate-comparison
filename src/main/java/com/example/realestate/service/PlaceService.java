@@ -18,9 +18,9 @@ import java.util.UUID;
 public interface PlaceService {
     GlobalResponse<Meta, PlaceResponse> createPlace(UUID id, PlaceRequest request);
 
-    GlobalResponse<Meta, List<PlaceResponse>> importPlace(UUID id);
+    GlobalResponse<Meta, List<PlaceResponse>> importPlace();
 
-    GlobalResponse<Meta, List<PlaceResponse>> getPlaces(UUID id);
+    GlobalResponse<Meta, List<PlaceResponse>> getPlaces(UUID id, int page, int size);
 
     GlobalResponse<Meta, PlaceResponse> getPlace(UUID projectId, UUID placeId);
 

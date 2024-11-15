@@ -87,10 +87,10 @@ public class PlaceController {
             )
     })
     @PostMapping(Endpoint.V1.Place.IMPORT_PLACE)
-    public ResponseEntity<GlobalResponse<Meta, List<PlaceResponse>>> importPlace(@PathVariable(name = "projectId") UUID id) {
+    public ResponseEntity<GlobalResponse<Meta, List<PlaceResponse>>> importPlace() {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(placeService.importPlace(id));
+                .body(placeService.importPlace());
     }
 
     @Operation(
@@ -112,10 +112,12 @@ public class PlaceController {
             )
     })
     @GetMapping(Endpoint.V1.Place.GET_PLACES)
-    public ResponseEntity<GlobalResponse<Meta, List<PlaceResponse>>> getPlaces(@PathVariable(name = "projectId") UUID id) {
+    public ResponseEntity<GlobalResponse<Meta, List<PlaceResponse>>> getPlaces(@PathVariable(name = "projectId") UUID id,
+                                                                               @RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "1000") int size) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(placeService.getPlaces(id));
+                .body(placeService.getPlaces(id, page, size));
     }
 
     @Operation(

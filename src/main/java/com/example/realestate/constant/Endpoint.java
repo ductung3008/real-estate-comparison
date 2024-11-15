@@ -48,7 +48,7 @@ public interface Endpoint {
         public interface Place {
             String PREFIX       = V1.PREFIX + "/projects/{projectId}/places";
             String CREATE_PLACE = PREFIX;
-            String IMPORT_PLACE = PREFIX + "/import";
+            String IMPORT_PLACE = V1.PREFIX + "/places/import";
             String GET_PLACES   = PREFIX;
             String GET_PLACE    = PREFIX + "/{placeId}";
             String DELETE_PLACE = PREFIX + "/{placeId}";

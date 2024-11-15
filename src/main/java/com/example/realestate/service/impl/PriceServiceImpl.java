@@ -71,6 +71,7 @@ public class PriceServiceImpl implements PriceService {
         List<PriceResponse> responses = prices.stream()
                 .map(price -> {
                     PriceResponse response = PriceMapper.INSTANCE.toPriceResponse(price);
+                    response.setProjectID(price.getProject().getId());
 
                     return response;
                 })

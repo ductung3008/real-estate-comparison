@@ -7,6 +7,7 @@ package com.example.realestate.domain.mapper;
  * @social Facebook: https://www.facebook.com/profile.php?id=100047152174225
  */
 
+import com.example.realestate.constant.PlaceCategory;
 import com.example.realestate.domain.dto.request.PlaceRequest;
 import com.example.realestate.domain.dto.response.PlaceResponse;
 import com.example.realestate.domain.entity.Place;
@@ -28,6 +29,9 @@ public interface PlaceMapper {
 
     @Named("uppercaseCategory")
     default String uppercaseCategory(String category) {
+        if (category.isEmpty()) {
+            return PlaceCategory.OTHER.name();
+        }
         return category != null ? category.toUpperCase() : null;
     }
 }

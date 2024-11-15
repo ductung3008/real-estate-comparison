@@ -29,4 +29,5 @@ public class PlaceRequest {
     BigDecimal distance;
     BigDecimal rating;
     String category;
+    UUID projectId;
 }

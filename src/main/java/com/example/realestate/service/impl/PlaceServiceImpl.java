@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -63,16 +64,13 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public GlobalResponse<Meta, List<PlaceResponse>> importPlace(UUID id) {
-        Project project = projectRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
-
+    public GlobalResponse<Meta, List<PlaceResponse>> importPlace() {
         List<PlaceRequest> placeRequests = getPlaces();
 
         List<Place> places = placeRequests.stream()
                 .map(request -> {
                     Place place = PlaceMapper.INSTANCE.toPlace(request);
-                    place.addProject(project);
+                    place.addProject(projectRepository.findById(request.getProjectId()).orElse(null));
 
                     return place;
                 }).collect(Collectors.toList());
@@ -90,11 +88,14 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public GlobalResponse<Meta, List<PlaceResponse>> getPlaces(UUID id) {
+    public GlobalResponse<Meta, List<PlaceResponse>> getPlaces(UUID id, int page, int size) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
 
-        List<PlaceResponse> responses = project.getPlaces().stream()
+        int limit = size;
+        int offset = page * size;
+
+        List<PlaceResponse> responses = placeRepository.findPlacesByProjectWithPagination(id, limit, offset).stream()
                 .map(PlaceMapper.INSTANCE::toPlaceResponse)
                 .collect(Collectors.toList());
 
@@ -169,17 +170,18 @@ public class PlaceServiceImpl implements PlaceService {
         List<PlaceRequest> places = new ArrayList<>();
 
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("E:\\real-estate\\SCHOOL.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("D:\\workspace\\Java\\real-estate-comparison\\data\\places.json"));
             JsonNode dataNode = rootNode.path("data");
-            String category = dataNode.path("category").asText();
+            String category = dataNode.path("category").asText().toUpperCase(Locale.ROOT);
 
             for (JsonNode detailNode : dataNode.path("details")) {
                 PlaceRequest place = PlaceRequest.builder()
+                                                .projectId(UUID.fromString(detailNode.path("project_id").asText()))
                                                  .name(detailNode.path("name").asText())
-                                                 .latitude(new BigDecimal(detailNode.path("geo_location").get(1).asText()))
-                                                 .longitude(new BigDecimal(detailNode.path("geo_location").get(0).asText()))
+                                                 .latitude(new BigDecimal(detailNode.path("latitude").asText()))
+                                                 .longitude(new BigDecimal(detailNode.path("longitude").asText()))
                                                  .distance(new BigDecimal(detailNode.path("distance").asText()))
-                                                 .rating(new BigDecimal(detailNode.path("rating").asText()))
+//                                                 .rating(new BigDecimal(detailNode.path("rating").asText()))
                                                  .category(category)
                                                  .build();
 
