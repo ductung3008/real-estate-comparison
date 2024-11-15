@@ -81,23 +81,8 @@ public class ProjectServiceImpl implements ProjectService {
         objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
         objectMapper.registerModule(new JavaTimeModule());
 
-        // Đọc dữ liệu từ file JSON
         File file = new File("D:\\workspace\\Java\\real-estate-comparison\\data\\realestate-db.json");
-//        File file = new File("E:\\real-estate\\realestate-example.json");
-//        List<LinkedHashMap<String, Object>> objects = objectMapper.readValue(file, List.class);
         List<ProjectRequest> requests = getProjectRequests(file);
-
-//        for (LinkedHashMap<String, Object> obj : objects) {
-//            // Chuyển đổi thủ công vào ProjectRequest nếu cần
-//            ProjectRequest request = null;
-//            try{
-//                request = objectMapper.convertValue(obj, ProjectRequest.class);
-////                log.error(request.getName());
-//                requests.add(request);
-//            }catch (DateTimeParseException ex) {
-//                request.setHandoverDate(LocalDate.now());
-//            }
-//        }
 
         List<Project> projects = requests.stream()
                                        .map(request -> {
@@ -112,10 +97,8 @@ public class ProjectServiceImpl implements ProjectService {
                                        })
                                        .collect(Collectors.toList());
 
-        // Lưu các bản ghi vào cơ sở dữ liệu
         projects = projectRepository.saveAll(projects);
 
-        // Chuyển đổi Project sang ProjectResponse
         List<ProjectResponse> responses = projects.stream()
                                                   .map(project -> {
                                                       ProjectResponse response = ProjectMapper.INSTANCE.toProjectResponse(project);
@@ -342,8 +325,8 @@ public class ProjectServiceImpl implements ProjectService {
                     numberEle = numberEleNode.asInt();
                 }
 
-
                 ProjectRequest project = ProjectRequest.builder()
+                                                        .id(UUID.fromString(projectNode.path("id").asText()))
                                                        .code(projectNode.path("code").asText())
                                                        .name(projectNode.path("name").asText())
                                                        .address(projectNode.path("address").asText())

@@ -43,7 +43,7 @@ public class Place {
     PlaceCategory category;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "product_id")
+    @JoinColumn(nullable = false, name = "project_id")
     Project project;
 
     public void addProject(Project project) {

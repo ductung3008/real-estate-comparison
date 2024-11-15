@@ -87,7 +87,7 @@ public class ProjectController {
                     content = @Content(mediaType = "application/json")
             )
     })
-    @PostMapping(Endpoint.V1.Project.IMPORT_PROJECT)
+    @PutMapping(Endpoint.V1.Project.IMPORT_PROJECT)
     public ResponseEntity<GlobalResponse<Meta, List<ProjectResponse>>> importProject() {
         return ResponseEntity
                 .status(HttpStatus.CREATED)

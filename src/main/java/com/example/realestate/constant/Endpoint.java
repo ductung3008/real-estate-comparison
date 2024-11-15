@@ -54,5 +54,11 @@ public interface Endpoint {
             String DELETE_PLACE = PREFIX + "/{placeId}";
             String UPDATE_PLACE = PREFIX + "/{placeId}";
         }
+
+        public interface Price {
+            String PREFIX = V1.PREFIX + "/projects/{projectId}/prices";
+            String GET_PRICE_BY_PROJECT = PREFIX;
+            String IMPORT_PRICE = V1.PREFIX + "/prices/import";
+        }
     }
 }
