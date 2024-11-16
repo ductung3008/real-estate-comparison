@@ -5,7 +5,7 @@ import com.example.realestate.domain.dto.global.GlobalResponse;
 import com.example.realestate.domain.dto.global.Meta;
 import com.example.realestate.domain.dto.stat.AreaCategoryStats;
 import com.example.realestate.domain.dto.stat.DistrictStats;
-import com.example.realestate.domain.dto.stat.ParkingStats;
+import com.example.realestate.domain.dto.stat.ParkingStatsDto;
 import com.example.realestate.domain.dto.stat.PriceRangeStats;
 import com.example.realestate.service.StatsService;
 import lombok.AccessLevel;
@@ -48,7 +48,7 @@ public class StatsController {
     }
 
     @GetMapping(Endpoint.V1.Stat.PARKING)
-    public ResponseEntity<GlobalResponse<Meta, List<ParkingStats>>> parkingStat() {
+    public ResponseEntity<GlobalResponse<Meta, ParkingStatsDto>> parkingStat() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(statsService.parkingStat());

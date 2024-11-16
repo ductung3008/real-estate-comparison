@@ -2,12 +2,10 @@ package com.example.realestate.service;
 
 import com.example.realestate.domain.dto.global.GlobalResponse;
 import com.example.realestate.domain.dto.global.Meta;
-import com.example.realestate.domain.dto.stat.AreaCategoryStats;
-import com.example.realestate.domain.dto.stat.DistrictStats;
-import com.example.realestate.domain.dto.stat.ParkingStats;
-import com.example.realestate.domain.dto.stat.PriceRangeStats;
+import com.example.realestate.domain.dto.stat.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StatsService {
     GlobalResponse<Meta, List<PriceRangeStats>> priceStat();
@@ -16,5 +14,5 @@ public interface StatsService {
 
     GlobalResponse<Meta, List<AreaCategoryStats>> areaStat();
 
-    GlobalResponse<Meta, List<ParkingStats>> parkingStat();
+    GlobalResponse<Meta, ParkingStatsDto> parkingStat();
 }

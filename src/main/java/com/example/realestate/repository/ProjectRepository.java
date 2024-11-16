@@ -84,46 +84,56 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     List<Object[]> findAreaCategoryStats();
 
     @Query(value = """
-                SELECT 
-                    bikeParkingCategory,
-                    carParkingCategory,
-                    COUNT(*) AS projectCount
-                FROM (
-                    SELECT 
-                        CASE 
-                            WHEN p.bikeParkingMonthly = 0 THEN 'No Fee'
-                            WHEN p.bikeParkingMonthly > 0 AND p.bikeParkingMonthly <= 100000 THEN '0 - 100,000 VND'
-                            WHEN p.bikeParkingMonthly > 100000 AND p.bikeParkingMonthly <= 500000 THEN '100,000 - 500,000 VND'
-                            WHEN p.bikeParkingMonthly > 500000 AND p.bikeParkingMonthly <= 1000000 THEN '500,000 - 1 Million VND'
-                            WHEN p.bikeParkingMonthly > 1000000 THEN '> 1 Million VND' 
-                        END AS bikeParkingCategory,
+        SELECT 
+            bike_parking_category,
+            COUNT(*) AS project_count
+        FROM (
+            SELECT 
+                CASE 
+                    WHEN bike_parking_monthly IS NULL OR bike_parking_monthly <= 0 THEN 'No Fee'
+                    WHEN bike_parking_monthly > 0 AND bike_parking_monthly <= 100000 THEN '0 - 100,000 VND'
+                    WHEN bike_parking_monthly > 100000 AND bike_parking_monthly <= 500000 THEN '100,000 - 500,000 VND'
+                    WHEN bike_parking_monthly > 500000 AND bike_parking_monthly <= 1000000 THEN '500,000 - 1 Million VND'
+                    ELSE '> 1 Million VND'
+                END AS bike_parking_category
+            FROM projects
+        ) subquery
+        GROUP BY bike_parking_category
+        ORDER BY 
+            CASE bike_parking_category
+                WHEN 'No Fee' THEN 1
+                WHEN '0 - 100,000 VND' THEN 2
+                WHEN '100,000 - 500,000 VND' THEN 3
+                WHEN '500,000 - 1 Million VND' THEN 4
+                ELSE 5
+            END
+        """, nativeQuery = true)
+    List<Object[]> findBikeParkingCategoriesWithCounts();
 
-                        CASE 
-                            WHEN p.carParkingMonthly = 0 THEN 'No Fee'
-                            WHEN p.carParkingMonthly > 0 AND p.carParkingMonthly <= 100000 THEN '0 - 100,000 VND'
-                            WHEN p.carParkingMonthly > 100000 AND p.carParkingMonthly <= 500000 THEN '100,000 - 500,000 VND'
-                            WHEN p.carParkingMonthly > 500000 AND p.carParkingMonthly <= 1000000 THEN '500,000 - 1 Million VND'
-                            WHEN p.carParkingMonthly > 1000000 THEN '> 1 Million VND'
-                        END AS carParkingCategory
-                    FROM Project p
-                ) AS categorized
-                GROUP BY bikeParkingCategory, carParkingCategory
-                ORDER BY 
-                    CASE bikeParkingCategory
-                        WHEN 'No Fee' THEN 1
-                        WHEN '0 - 100,000 VND' THEN 2
-                        WHEN '100,000 - 500,000 VND' THEN 3
-                        WHEN '500,000 - 1 Million VND' THEN 4
-                        WHEN '> 1 Million VND' THEN 5
-                    END,
-                    CASE carParkingCategory
-                        WHEN 'No Fee' THEN 1
-                        WHEN '0 - 100,000 VND' THEN 2
-                        WHEN '100,000 - 500,000 VND' THEN 3
-                        WHEN '500,000 - 1 Million VND' THEN 4
-                        WHEN '> 1 Million VND' THEN 5
-                    END
-            """)
-    List<Object[]> findParkingStats();
-
+    @Query(value = """
+        SELECT 
+            car_parking_category,
+            COUNT(*) AS project_count
+        FROM (
+            SELECT 
+                CASE 
+                    WHEN car_parking_monthly IS NULL OR car_parking_monthly <= 0 THEN 'No Fee'
+                    WHEN car_parking_monthly > 0 AND car_parking_monthly <= 100000 THEN '0 - 100,000 VND'
+                    WHEN car_parking_monthly > 100000 AND car_parking_monthly <= 500000 THEN '100,000 - 500,000 VND'
+                    WHEN car_parking_monthly > 500000 AND car_parking_monthly <= 1000000 THEN '500,000 - 1 Million VND'
+                    ELSE '> 1 Million VND'
+                END AS car_parking_category
+            FROM projects
+        ) subquery
+        GROUP BY car_parking_category
+        ORDER BY 
+            CASE car_parking_category
+                WHEN 'No Fee' THEN 1
+                WHEN '0 - 100,000 VND' THEN 2
+                WHEN '100,000 - 500,000 VND' THEN 3
+                WHEN '500,000 - 1 Million VND' THEN 4
+                ELSE 5
+            END
+        """, nativeQuery = true)
+    List<Object[]> findCarParkingCategoriesWithCounts();
 }

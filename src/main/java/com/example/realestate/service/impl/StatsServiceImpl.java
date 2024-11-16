@@ -3,10 +3,7 @@ package com.example.realestate.service.impl;
 import com.example.realestate.constant.Status;
 import com.example.realestate.domain.dto.global.GlobalResponse;
 import com.example.realestate.domain.dto.global.Meta;
-import com.example.realestate.domain.dto.stat.AreaCategoryStats;
-import com.example.realestate.domain.dto.stat.DistrictStats;
-import com.example.realestate.domain.dto.stat.ParkingStats;
-import com.example.realestate.domain.dto.stat.PriceRangeStats;
+import com.example.realestate.domain.dto.stat.*;
 import com.example.realestate.repository.ProjectRepository;
 import com.example.realestate.service.StatsService;
 import lombok.AccessLevel;
@@ -16,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -87,21 +85,24 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public GlobalResponse<Meta, List<ParkingStats>> parkingStat() {
-        List<Object[]> results = projectRepository.findParkingStats();
-        List<ParkingStats> stats = new ArrayList<>();
+    public GlobalResponse<Meta, ParkingStatsDto> parkingStat() {
+        List<Object[]> biking = projectRepository.findBikeParkingCategoriesWithCounts();
+        List<Object[]> carking = projectRepository.findCarParkingCategoriesWithCounts();
 
-        for (Object[] result : results) {
-            String bikeParkingCategory = (String) result[0];
-            String carParkingCategory = (String) result[1];
-            Long projectCount = ((Number) result[2]).longValue();
+        List<BikeParkingCategoryDto> bikes = biking.stream()
+                .map(result -> new BikeParkingCategoryDto((String) result[0], ((Number) result[1]).longValue()))
+                .collect(Collectors.toList());
 
-            stats.add(new ParkingStats(bikeParkingCategory, carParkingCategory, projectCount));
-        }
+        List<CarParkingCategoryDto> cars = carking.stream()
+                .map(result -> new CarParkingCategoryDto((String) result[0], ((Number) result[1]).longValue()))
+                .collect(Collectors.toList());
 
-        return GlobalResponse.<Meta, List<ParkingStats>>builder()
+        ParkingStatsDto stats = new ParkingStatsDto(bikes, cars);
+
+        return GlobalResponse.<Meta, ParkingStatsDto>builder()
                 .meta(Meta.builder().status(Status.SUCCESS).build())
                 .data(stats)
                 .build();
     }
+
 }
