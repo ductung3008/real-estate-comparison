@@ -61,5 +61,13 @@ public interface Endpoint {
             String GET_PRICE_BY_PROJECT = PREFIX;
             String IMPORT_PRICE = V1.PREFIX + "/prices/import";
         }
+
+        public interface Stat {
+            String PREFIX = V1.PREFIX + "/stats";
+            String PRICE = PREFIX + "/prices";
+            String DISTRICT = PREFIX + "/districts";
+            String AREA = PREFIX + "/areas";
+            String PARKING = PREFIX + "/parking";
+        }
     }
 }
