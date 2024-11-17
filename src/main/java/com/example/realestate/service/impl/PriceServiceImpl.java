@@ -56,7 +56,7 @@ public class PriceServiceImpl implements PriceService {
         List<Price> prices = requests.stream()
                 .map(request -> {
                     Price price = PriceMapper.INSTANCE.toPrice(request);
-                    price.setProject(projectRepository.findById(request.getProjectId()).orElse(null));
+                    price.setProject(projectRepository.findById(request.getProjectId()).orElse(new Project(request.getProjectId())));
 
                     return price;
                 })

@@ -110,6 +110,10 @@ public class Project {
     @UpdateTimestamp
     Timestamp updatedAt;
 
+    public Project(UUID id) {
+        this.id = id;
+    }
+
     public void addProperty(PropertyType type) {
         if (Objects.isNull(types)) {
             types = new ArrayList<>();

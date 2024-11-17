@@ -131,18 +131,18 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectResponse> responses = projects.stream()
                                                   .map(project -> {
                                                       ProjectResponse response = ProjectMapper.INSTANCE.toProjectResponse(project);
-                                                      if (!Objects.isNull(project.getTypes())) {
-                                                          response.setProperties(project.getTypes()
-                                                                                        .stream()
-                                                                                        .map(PropertyTypeMapper.INSTANCE::PropertyTypeResponse)
-                                                                                        .collect(Collectors.toList())
-                                                          );
-                                                      }
-                                                      if (!Objects.isNull(project.getPlaces())) {
-                                                          response.setPlaces(project.getPlaces()
-                                                          .stream().map(PlaceMapper.INSTANCE::toPlaceResponse)
-                                                          .collect(Collectors.toList()));
-                                                      }
+//                                                      if (!Objects.isNull(project.getTypes())) {
+//                                                          response.setProperties(project.getTypes()
+//                                                                                        .stream()
+//                                                                                        .map(PropertyTypeMapper.INSTANCE::PropertyTypeResponse)
+//                                                                                        .collect(Collectors.toList())
+//                                                          );
+//                                                      }
+//                                                      if (!Objects.isNull(project.getPlaces())) {
+//                                                          response.setPlaces(project.getPlaces()
+//                                                          .stream().map(PlaceMapper.INSTANCE::toPlaceResponse)
+//                                                          .collect(Collectors.toList()));
+//                                                      }
 
                                                       return response;
                                                   })
