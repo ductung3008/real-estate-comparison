@@ -1,11 +1,4 @@
 package com.example.realestate.controller;
-/*
- * @author HongAnh
- * @created 06 / 11 / 2024 - 11:53 SA
- * @project real-estate
- * @social Github: https://github.com/lehonganh0201
- * @social Facebook: https://www.facebook.com/profile.php?id=100047152174225
- */
 
 import com.example.realestate.constant.Endpoint;
 import com.example.realestate.domain.dto.global.GlobalResponse;
