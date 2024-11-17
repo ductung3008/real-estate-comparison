@@ -6,4 +6,6 @@ services:
         container_name: real-estate-app
         ports:
             - "8080:8080"
-        network_mode: "host"
+        volumes:
+            - ./src:/app
+        # network_mode: "host"
