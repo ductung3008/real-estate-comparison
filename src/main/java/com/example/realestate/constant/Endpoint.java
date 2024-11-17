@@ -38,11 +38,12 @@ public interface Endpoint {
 
         public interface PropertyType {
             String PREFIX          = V1.PREFIX + "/projects/{projectId}/property-types";
+            String PROPERTY_PREFIX = V1.PREFIX + "/property-types";
             String CREATE_PROPERTY = PREFIX;
             String GET_PROPERTIES  = PREFIX;
             String GET_PROPERTY    = PREFIX + "/{propertyId}";
-            String DELETE_PROPERTY = PREFIX + "/{propertyId}";
-            String UPDATE_PROPERTY = PREFIX + "/{propertyId}";
+            String DELETE_PROPERTY = PROPERTY_PREFIX + "/{propertyId}";
+            String UPDATE_PROPERTY = PROPERTY_PREFIX + "/{propertyId}";
         }
 
         public interface Place {

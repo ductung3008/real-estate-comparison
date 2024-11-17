@@ -124,11 +124,10 @@ public class PropertyTypeController {
     })
     @DeleteMapping(Endpoint.V1.PropertyType.DELETE_PROPERTY)
     public ResponseEntity<GlobalResponse<Meta, String>> deleteProperty(
-            @PathVariable(name = "projectId") UUID projectId,
             @PathVariable(name = "propertyId") UUID propertyID) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(propertyTypeService.deleteProperty(projectId, propertyID));
+                .body(propertyTypeService.deleteProperty(propertyID));
     }
 
     @Operation(
@@ -155,11 +154,10 @@ public class PropertyTypeController {
     })
     @PutMapping(Endpoint.V1.PropertyType.UPDATE_PROPERTY)
     public ResponseEntity<GlobalResponse<Meta, PropertyTypeResponse>> updateProperty(
-            @PathVariable(name = "projectId") UUID projectId,
             @PathVariable(name = "propertyId") UUID propertyID,
             @RequestBody PropertyTypeRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(propertyTypeService.updateProperty(projectId, propertyID, request));
+                .body(propertyTypeService.updateProperty(propertyID, request));
     }
 }

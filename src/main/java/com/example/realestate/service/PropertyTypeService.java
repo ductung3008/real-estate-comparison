@@ -22,7 +22,7 @@ public interface PropertyTypeService {
 
     GlobalResponse<Meta, PropertyTypeResponse> getProperty(UUID projectId, UUID propertyID);
 
-    GlobalResponse<Meta, String> deleteProperty(UUID projectId, UUID propertyID);
+    GlobalResponse<Meta, String> deleteProperty(UUID propertyID);
 
-    GlobalResponse<Meta, PropertyTypeResponse> updateProperty(UUID projectId, UUID propertyID, PropertyTypeRequest request);
+    GlobalResponse<Meta, PropertyTypeResponse> updateProperty(UUID propertyID, PropertyTypeRequest request);
 }

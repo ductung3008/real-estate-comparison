@@ -36,12 +36,12 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PropertyTypeServiceImpl implements PropertyTypeService {
     PropertyTypeRepository propertyTypeRepository;
-    ProjectRepository      projectRepository;
+    ProjectRepository projectRepository;
 
     @Override
     public GlobalResponse<Meta, PropertyTypeResponse> createProperty(UUID uuid, PropertyTypeRequest request) {
         Project project = projectRepository.findById(uuid)
-                                           .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
 
         PropertyType propertyType = PropertyTypeMapper.INSTANCE.toPropertyType(request);
         propertyType.setProject(project);
@@ -51,9 +51,9 @@ public class PropertyTypeServiceImpl implements PropertyTypeService {
         PropertyTypeResponse response = PropertyTypeMapper.INSTANCE.PropertyTypeResponse(propertyType);
 
         return GlobalResponse.<Meta, PropertyTypeResponse>builder()
-                             .meta(Meta.builder().status(Status.SUCCESS).build())
-                             .data(response)
-                             .build();
+                .meta(Meta.builder().status(Status.SUCCESS).build())
+                .data(response)
+                .build();
     }
 
     @Override
@@ -63,12 +63,12 @@ public class PropertyTypeServiceImpl implements PropertyTypeService {
 
         List<PropertyTypeResponse> responses = project.getTypes()
                 .stream().map(PropertyTypeMapper.INSTANCE::PropertyTypeResponse)
-                .collect(Collectors.toList());;
+                .collect(Collectors.toList());
 
         return GlobalResponse.<Meta, List<PropertyTypeResponse>>builder()
-                             .meta(Meta.builder().status(Status.SUCCESS).build())
-                             .data(responses)
-                             .build();
+                .meta(Meta.builder().status(Status.SUCCESS).build())
+                .data(responses)
+                .build();
     }
 
     @Override
@@ -80,54 +80,42 @@ public class PropertyTypeServiceImpl implements PropertyTypeService {
             if (item.getId().equals(propertyID)) {
                 PropertyTypeResponse response = PropertyTypeMapper.INSTANCE.PropertyTypeResponse(item);
                 return GlobalResponse.<Meta, PropertyTypeResponse>builder()
-                                     .meta(Meta.builder().status(Status.SUCCESS).build())
-                                     .data(response)
-                                     .build();
+                        .meta(Meta.builder().status(Status.SUCCESS).build())
+                        .data(response)
+                        .build();
             }
         }
         throw new NotFoundException(ErrorMessage.PropertyType.ERR_NOT_FOUND_IN_PROJECT);
     }
 
     @Override
-    public GlobalResponse<Meta, String> deleteProperty(UUID projectId, UUID propertyID) {
-        Project project = projectRepository.findById(projectId)
-                                           .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
-
-        for (var item : project.getTypes()) {
-            if (item.getId().equals(propertyID)) {
-                project.getTypes().remove(item);
-                projectRepository.save(project);
-                return GlobalResponse.<Meta, String>builder()
-                                     .meta(Meta.builder().status(Status.SUCCESS).build())
-                                     .data("Delete property success!")
-                                     .build();
-            }
-        }
-        throw new NotFoundException(ErrorMessage.PropertyType.ERR_NOT_FOUND_IN_PROJECT);
-    }
-
-    @Override
-    public GlobalResponse<Meta, PropertyTypeResponse> updateProperty(UUID projectId, UUID propertyID, PropertyTypeRequest request) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
-
-        PropertyType type = propertyTypeRepository.findById(propertyID)
+    public GlobalResponse<Meta, String> deleteProperty(UUID propertyID) {
+        PropertyType propertyType = propertyTypeRepository.findById(propertyID)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.PropertyType.ERR_NOT_FOUND_BY_ID));
 
-        for(var item : project.getTypes()) {
-            if (item.getId().equals(type.getId())) {
-                PropertyTypeMapper.INSTANCE.updateProperty(request, type);
+        propertyTypeRepository.deleteById(propertyID);
 
-                type = propertyTypeRepository.save(type);
+        return GlobalResponse.<Meta, String>builder()
+                .meta(Meta.builder().status(Status.SUCCESS).build())
+                .data("Delete property success!")
+                .build();
+    }
 
-                PropertyTypeResponse response = PropertyTypeMapper.INSTANCE.PropertyTypeResponse(type);
+    @Override
+    public GlobalResponse<Meta, PropertyTypeResponse> updateProperty(UUID propertyID, PropertyTypeRequest request) {
+        PropertyType propertyType = propertyTypeRepository.findById(propertyID)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.PropertyType.ERR_NOT_FOUND_BY_ID));
 
-                return GlobalResponse.<Meta, PropertyTypeResponse>builder()
-                                     .meta(Meta.builder().status(Status.SUCCESS).build())
-                                     .data(response)
-                                     .build();
-            }
-        }
-        throw new NotFoundException(ErrorMessage.PropertyType.ERR_NOT_FOUND_IN_PROJECT);
+        PropertyTypeMapper.INSTANCE.updateProperty(request, propertyType);
+
+        propertyType = propertyTypeRepository.save(propertyType);
+
+        PropertyTypeResponse response = PropertyTypeMapper.INSTANCE.PropertyTypeResponse(propertyType);
+
+
+        return GlobalResponse.<Meta, PropertyTypeResponse>builder()
+                .meta(Meta.builder().status(Status.SUCCESS).build())
+                .data(response)
+                .build();
     }
 }
