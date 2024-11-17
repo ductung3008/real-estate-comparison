@@ -22,7 +22,6 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true, allowSetters = true)
 public class PlaceRequest {
-    UUID id;
     String name;
     BigDecimal latitude;
     BigDecimal longitude;
