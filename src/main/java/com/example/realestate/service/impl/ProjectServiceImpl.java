@@ -161,18 +161,18 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.Project.ERR_NOT_FOUND_BY_ID));
 
         ProjectResponse response = ProjectMapper.INSTANCE.toProjectResponse(project);
-        if (!Objects.isNull(project.getTypes())) {
-            response.setProperties(project.getTypes()
-                                          .stream()
-                                          .map(PropertyTypeMapper.INSTANCE::PropertyTypeResponse)
-                                          .collect(Collectors.toList())
-            );
-        }
-        if (!Objects.isNull(project.getPlaces())) {
-            response.setPlaces(project.getPlaces()
-                                      .stream().map(PlaceMapper.INSTANCE::toPlaceResponse)
-                                      .collect(Collectors.toList()));
-        }
+//        if (!Objects.isNull(project.getTypes())) {
+//            response.setProperties(project.getTypes()
+//                                          .stream()
+//                                          .map(PropertyTypeMapper.INSTANCE::PropertyTypeResponse)
+//                                          .collect(Collectors.toList())
+//            );
+//        }
+//        if (!Objects.isNull(project.getPlaces())) {
+//            response.setPlaces(project.getPlaces()
+//                                      .stream().map(PlaceMapper.INSTANCE::toPlaceResponse)
+//                                      .collect(Collectors.toList()));
+//        }
 
         return GlobalResponse.<Meta, ProjectResponse>builder()
                              .meta(Meta.builder().status(Status.SUCCESS).build())
