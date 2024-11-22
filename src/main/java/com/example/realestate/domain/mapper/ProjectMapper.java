@@ -10,10 +10,7 @@ package com.example.realestate.domain.mapper;
 import com.example.realestate.domain.dto.request.ProjectRequest;
 import com.example.realestate.domain.dto.response.ProjectResponse;
 import com.example.realestate.domain.entity.Project;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValueCheckStrategy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring",
@@ -24,6 +21,7 @@ public interface ProjectMapper {
 
     Project toProject(ProjectRequest request);
 
+    @Mapping(target = "places", ignore = true)
     ProjectResponse toProjectResponse(Project project);
 
     void updateProject(ProjectRequest request, @MappingTarget Project project);
