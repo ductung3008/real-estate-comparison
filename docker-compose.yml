@@ -12,6 +12,7 @@ services:
             - db
         networks:
             - real-estate-network
+        restart: always
 
     db:
         image: postgres:15
@@ -27,6 +28,7 @@ services:
             - ./db/init:/docker-entrypoint-initdb.d
         networks:
             - real-estate-network
+        restart: always
 
 networks:
     real-estate-network:
