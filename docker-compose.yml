@@ -32,7 +32,7 @@ services:
 
 networks:
     real-estate-network:
-        driver: bridge
+        external: true
 
 volumes:
     postgres_data:
